@@ -1,0 +1,75 @@
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #0f0f1a;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+a {
+  font-weight: 500;
+  color: #4a90d9;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #6ba8e8;
+}
+
+button {
+  border-radius: 6px;
+  border: 1px solid #333;
+  padding: 0.5em 1em;
+  font-size: 0.9em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1f1f3a;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+button:hover {
+  background-color: #2a2a4a;
+  border-color: #444;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 2px solid #4a90d9;
+  outline-offset: 2px;
+}
+
+input, select {
+  border-radius: 6px;
+  border: 1px solid #333;
+  padding: 0.5em 0.75em;
+  font-size: 0.9em;
+  font-family: inherit;
+  background-color: #1f1f3a;
+  color: #fff;
+}
+
+input:focus, select:focus {
+  outline: 2px solid #4a90d9;
+  outline-offset: 1px;
+}

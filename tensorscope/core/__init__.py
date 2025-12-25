@@ -23,6 +23,13 @@ from .registry import (
     register_operator,
 )
 
+from .scenario import (
+    ParameterType,
+    Parameter,
+    ProbePoint,
+    Scenario,
+)
+
 __all__ = [
     # tensor.py
     "TensorKind",
@@ -39,4 +46,9 @@ __all__ = [
     # registry.py
     "OperatorRegistry",
     "register_operator",
+    # scenario.py
+    "ParameterType",
+    "Parameter",
+    "ProbePoint",
+    "Scenario",
 ]

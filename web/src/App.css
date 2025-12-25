@@ -1,0 +1,314 @@
+/* Tensorscope App Styles */
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: #1a1a2e;
+  color: white;
+  border-bottom: 1px solid #333;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.ws-status {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+}
+
+.ws-status.connected {
+  background: #10b981;
+  color: white;
+}
+
+.ws-status.disconnected {
+  background: #ef4444;
+  color: white;
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  background: #16162a;
+  border-right: 1px solid #333;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.sidebar h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.scenario-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.scenario-list li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  background: #1f1f3a;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.scenario-list li:hover {
+  background: #2a2a4a;
+  border-color: #444;
+}
+
+.scenario-list li.selected {
+  background: #2d4a6d;
+  border-color: #4a90d9;
+}
+
+.scenario-list li strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.scenario-list li p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.loading {
+  color: #888;
+  font-style: italic;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 0.9rem;
+}
+
+/* Main Panel */
+.main-panel {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: #0f0f1a;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.scenario-header {
+  margin-bottom: 1.5rem;
+}
+
+.scenario-header h2 {
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+}
+
+.scenario-header p {
+  margin: 0;
+  color: #888;
+}
+
+/* Tensor Section */
+.tensor-section {
+  margin-bottom: 1.5rem;
+}
+
+.tensor-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.tensor-card {
+  padding: 0.75rem;
+  background: #1f1f3a;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tensor-card:hover {
+  background: #2a2a4a;
+  border-color: #444;
+}
+
+.tensor-card.selected {
+  background: #2d4a6d;
+  border-color: #4a90d9;
+}
+
+.tensor-card strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.tensor-shape {
+  display: block;
+  font-size: 0.8rem;
+  color: #10b981;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  margin-bottom: 0.25rem;
+}
+
+.tensor-kind {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+/* Inspector */
+.inspector {
+  background: #1f1f3a;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.inspector h3 {
+  margin: 0 0 1rem 0;
+  color: #fff;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.inspector h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.inspector-content {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1.5rem;
+}
+
+.inspector-data {
+  min-width: 0;
+}
+
+.inspector-meta {
+  border-left: 1px solid #333;
+  padding-left: 1.5rem;
+}
+
+.inspector-details p {
+  margin: 0.5rem 0;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.inspector-details strong {
+  color: #888;
+  margin-right: 0.5rem;
+}
+
+.stats {
+  margin-top: 1rem;
+}
+
+.stats pre {
+  margin: 0.5rem 0 0 0;
+  padding: 0.75rem;
+  background: #0f0f1a;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  color: #10b981;
+  overflow-x: auto;
+}
+
+/* Tensor Data Display */
+.tensor-data {
+  overflow-x: auto;
+  background: #0f0f1a;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.tensor-data table {
+  border-collapse: collapse;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.85rem;
+}
+
+.tensor-data th,
+.tensor-data td {
+  padding: 0.35rem 0.6rem;
+  text-align: right;
+}
+
+.tensor-data th {
+  color: #666;
+  font-weight: normal;
+  border-bottom: 1px solid #333;
+}
+
+.tensor-data td.index {
+  color: #666;
+  font-weight: normal;
+  border-right: 1px solid #333;
+  padding-right: 0.75rem;
+}
+
+.tensor-data td.value {
+  color: #4ade80;
+}
+
+.tensor-matrix tbody tr:hover {
+  background: rgba(74, 144, 217, 0.1);
+}
+
+.tensor-vector tbody tr:hover {
+  background: rgba(74, 144, 217, 0.1);
+}

@@ -29,8 +29,13 @@ cd tensorscope
 python3 -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-# Install in development mode
+# Install Python package in development mode
 pip install -e ".[dev]"
+
+# Install frontend dependencies
+cd web
+npm install
+cd ..
 ```
 
 ### Running
@@ -43,6 +48,8 @@ pip install -e ".[dev]"
 ./dev.sh --api   # API server only (http://localhost:8000)
 ./dev.sh --web   # Web server only (http://localhost:5173)
 ```
+
+Then open http://localhost:5173 in your browser. Select a scenario from the sidebar, and click on tensors to inspect their values.
 
 ### Verify Installation
 
