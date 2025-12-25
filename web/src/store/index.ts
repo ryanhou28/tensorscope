@@ -9,11 +9,21 @@ import type {
 } from '../types';
 import { fetchScenarios, fetchScenario, runScenario } from '../api/client';
 
+// Toast notification types
+export interface Toast {
+  id: string;
+  type: 'error' | 'warning' | 'success' | 'info';
+  message: string;
+  duration?: number;
+}
+
 interface TensorscapeState {
   // Scenarios
   scenarios: ScenarioInfo[];
   currentScenario: ScenarioDetail | null;
   isLoadingScenarios: boolean;
+  isLoadingScenario: boolean;
+  isRunningScenario: boolean;
   scenarioError: string | null;
 
   // Tensors
@@ -22,6 +32,13 @@ interface TensorscapeState {
 
   // Parameters (current values for the active scenario)
   parameters: Record<string, number | string>;
+  isUpdatingParams: boolean;
+
+  // Toast notifications
+  toasts: Toast[];
+
+  // UI State
+  sidebarCollapsed: boolean;
 
   // Actions
   loadScenarios: () => Promise<void>;
@@ -32,6 +49,15 @@ interface TensorscapeState {
   selectTensor: (id: string | null) => void;
   updateTensor: (id: string, summary: TensorSummary) => void;
   setTensors: (tensors: Record<string, TensorSummary>) => void;
+  setUpdatingParams: (updating: boolean) => void;
+
+  // Toast actions
+  addToast: (toast: Omit<Toast, 'id'>) => void;
+  removeToast: (id: string) => void;
+
+  // UI actions
+  toggleSidebar: () => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
 }
 
 export const useStore = create<TensorscapeState>((set, get) => ({
@@ -39,10 +65,15 @@ export const useStore = create<TensorscapeState>((set, get) => ({
   scenarios: [],
   currentScenario: null,
   isLoadingScenarios: false,
+  isLoadingScenario: false,
+  isRunningScenario: false,
   scenarioError: null,
   tensors: {},
   selectedTensorId: null,
   parameters: {},
+  isUpdatingParams: false,
+  toasts: [],
+  sidebarCollapsed: false,
 
   // Actions
   loadScenarios: async () => {
@@ -59,7 +90,7 @@ export const useStore = create<TensorscapeState>((set, get) => ({
   },
 
   selectScenario: async (id: string) => {
-    set({ isLoadingScenarios: true, scenarioError: null });
+    set({ isLoadingScenario: true, scenarioError: null });
     try {
       const scenario = await fetchScenario(id);
 
@@ -72,7 +103,7 @@ export const useStore = create<TensorscapeState>((set, get) => ({
       set({
         currentScenario: scenario,
         parameters: defaultParams,
-        isLoadingScenarios: false,
+        isLoadingScenario: false,
         tensors: {},
         selectedTensorId: null,
       });
@@ -80,10 +111,12 @@ export const useStore = create<TensorscapeState>((set, get) => ({
       // Run the scenario to get initial tensors
       await get().runCurrentScenario();
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to load scenario';
       set({
-        scenarioError: error instanceof Error ? error.message : 'Failed to load scenario',
-        isLoadingScenarios: false,
+        scenarioError: message,
+        isLoadingScenario: false,
       });
+      get().addToast({ type: 'error', message });
     }
   },
 
@@ -106,11 +139,15 @@ export const useStore = create<TensorscapeState>((set, get) => ({
     const { currentScenario, parameters } = get();
     if (!currentScenario) return;
 
+    set({ isRunningScenario: true });
     try {
       const response = await runScenario(currentScenario.id, { parameters });
-      set({ tensors: response.tensors });
+      set({ tensors: response.tensors, isRunningScenario: false });
     } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to run scenario';
       console.error('Failed to run scenario:', error);
+      set({ isRunningScenario: false });
+      get().addToast({ type: 'error', message });
     }
   },
 
@@ -126,5 +163,39 @@ export const useStore = create<TensorscapeState>((set, get) => ({
 
   setTensors: (tensors: Record<string, TensorSummary>) => {
     set({ tensors });
+  },
+
+  setUpdatingParams: (updating: boolean) => {
+    set({ isUpdatingParams: updating });
+  },
+
+  // Toast actions
+  addToast: (toast: Omit<Toast, 'id'>) => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+    const newToast: Toast = { ...toast, id };
+    set((state) => ({ toasts: [...state.toasts, newToast] }));
+
+    // Auto-remove after duration (default 5 seconds)
+    const duration = toast.duration ?? 5000;
+    if (duration > 0) {
+      setTimeout(() => {
+        get().removeToast(id);
+      }, duration);
+    }
+  },
+
+  removeToast: (id: string) => {
+    set((state) => ({
+      toasts: state.toasts.filter((t) => t.id !== id),
+    }));
+  },
+
+  // UI actions
+  toggleSidebar: () => {
+    set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed }));
+  },
+
+  setSidebarCollapsed: (collapsed: boolean) => {
+    set({ sidebarCollapsed: collapsed });
   },
 }));
