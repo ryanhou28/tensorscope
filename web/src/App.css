@@ -1,0 +1,1468 @@
+/* Tensorscope App Styles */
+
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background: #1a1a2e;
+  color: white;
+  border-bottom: 1px solid #333;
+  gap: 1rem;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.sidebar-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid #333;
+  border-radius: 0.375rem;
+  color: #888;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sidebar-toggle:hover {
+  background: #2a2a4a;
+  border-color: #444;
+  color: #fff;
+}
+
+.updating-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #4a90d9;
+}
+
+.ws-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  white-space: nowrap;
+}
+
+.ws-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ws-status.connected {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+}
+
+.ws-status.connected .ws-status-dot {
+  background: #10b981;
+  box-shadow: 0 0 6px #10b981;
+}
+
+.ws-status.disconnected {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.ws-status.disconnected .ws-status-dot {
+  background: #ef4444;
+}
+
+.ws-status.reconnecting {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.ws-status.reconnecting .ws-status-dot {
+  background: #fbbf24;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+.ws-status.failed {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+}
+
+.ws-status.failed .ws-status-dot {
+  background: #ef4444;
+}
+
+/* Main Container */
+.main-container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  background: #16162a;
+  border-right: 1px solid #333;
+  overflow: hidden;
+  transition: width 0.2s ease, min-width 0.2s ease;
+}
+
+.sidebar.collapsed {
+  width: 0;
+  min-width: 0;
+  border-right: none;
+}
+
+.sidebar.collapsed .sidebar-content {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-content {
+  width: 280px;
+  padding: 1rem;
+  overflow-y: auto;
+  height: 100%;
+  transition: opacity 0.15s ease;
+}
+
+.sidebar-section {
+  margin-bottom: 1.5rem;
+}
+
+.sidebar h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.scenario-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.scenario-list li {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  background: #1f1f3a;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.scenario-list li:hover {
+  background: #2a2a4a;
+  border-color: #444;
+}
+
+.scenario-list li.selected {
+  background: #2d4a6d;
+  border-color: #4a90d9;
+}
+
+.scenario-list li strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.scenario-list li p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.loading {
+  color: #888;
+  font-style: italic;
+}
+
+.error {
+  color: #ef4444;
+  font-size: 0.9rem;
+}
+
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #888;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.error-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 0.375rem;
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.error-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.scenario-list li.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Main Panel */
+.main-panel {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+  background: #0f0f1a;
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.placeholder-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.placeholder-content svg {
+  color: #444;
+}
+
+.placeholder-content p {
+  margin: 0;
+}
+
+.placeholder-hint {
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.loading-overlay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  gap: 1rem;
+  color: #888;
+}
+
+.scenario-header {
+  margin-bottom: 1.5rem;
+}
+
+.scenario-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.scenario-header h2 {
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+}
+
+.scenario-header p {
+  margin: 0;
+  color: #888;
+}
+
+/* Tensor Section */
+.tensor-section {
+  margin-bottom: 1.5rem;
+}
+
+.tensor-section h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tensor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.tensor-card {
+  padding: 0.75rem;
+  background: #1f1f3a;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.tensor-card:hover {
+  background: #2a2a4a;
+  border-color: #444;
+}
+
+.tensor-card.selected {
+  background: #2d4a6d;
+  border-color: #4a90d9;
+}
+
+.tensor-card strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.tensor-shape {
+  display: block;
+  font-size: 0.8rem;
+  color: #10b981;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  margin-bottom: 0.25rem;
+}
+
+.tensor-kind {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+}
+
+/* Inspector */
+.inspector {
+  background: #1f1f3a;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
+.inspector h3 {
+  margin: 0 0 1rem 0;
+  color: #fff;
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.5rem;
+}
+
+.inspector h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.85rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.inspector-content {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 1.5rem;
+}
+
+.inspector-data {
+  min-width: 0;
+}
+
+.inspector-meta {
+  border-left: 1px solid #333;
+  padding-left: 1.5rem;
+}
+
+.inspector-details p {
+  margin: 0.5rem 0;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.inspector-details strong {
+  color: #888;
+  margin-right: 0.5rem;
+}
+
+.stats {
+  margin-top: 1rem;
+}
+
+.stats pre {
+  margin: 0.5rem 0 0 0;
+  padding: 0.75rem;
+  background: #0f0f1a;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  color: #10b981;
+  overflow-x: auto;
+}
+
+/* Tensor Data Display */
+.tensor-data {
+  overflow-x: auto;
+  background: #0f0f1a;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+}
+
+.tensor-data table {
+  border-collapse: collapse;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  font-size: 0.85rem;
+}
+
+.tensor-data th,
+.tensor-data td {
+  padding: 0.35rem 0.6rem;
+  text-align: right;
+}
+
+.tensor-data th {
+  color: #666;
+  font-weight: normal;
+  border-bottom: 1px solid #333;
+}
+
+.tensor-data td.index {
+  color: #666;
+  font-weight: normal;
+  border-right: 1px solid #333;
+  padding-right: 0.75rem;
+}
+
+.tensor-data td.value {
+  color: #4ade80;
+}
+
+.tensor-matrix tbody tr:hover {
+  background: rgba(74, 144, 217, 0.1);
+}
+
+.tensor-vector tbody tr:hover {
+  background: rgba(74, 144, 217, 0.1);
+}
+
+/* Visualizer Tabs */
+.visualizer-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #333;
+}
+
+.viz-tab {
+  padding: 0.5rem 1rem;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 0.375rem;
+  color: #888;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.15s ease;
+}
+
+.viz-tab:hover {
+  background: #2a2a4a;
+  border-color: #444;
+  color: #ccc;
+}
+
+.viz-tab.active {
+  background: #4a90d9;
+  border-color: #4a90d9;
+  color: #fff;
+}
+
+/* Visualizer Container */
+.visualizer-container {
+  background: #0f0f1a;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.visualizer-empty {
+  color: #666;
+  font-style: italic;
+}
+
+/* D3 Visualizer Styles */
+.visualizer svg {
+  display: block;
+}
+
+.visualizer text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.heatmap-visualizer,
+.singular-values-visualizer,
+.ellipse-visualizer,
+.vector-stem-visualizer {
+  background: transparent;
+}
+
+.eigenvalue-labels {
+  color: #ccc;
+}
+
+/* ============================================
+   NEW STYLES FOR STEP 8: Graph + Inspector
+   ============================================ */
+
+/* Content Area (replaces main-panel) */
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #0f0f1a;
+  padding: 1rem;
+}
+
+/* Graph and Inspector Layout */
+.graph-inspector-layout {
+  display: flex;
+  flex: 1;
+  gap: 1rem;
+  overflow: hidden;
+}
+
+/* Graph Panel */
+.graph-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a2e;
+  border-radius: 0.5rem;
+  border: 1px solid #333;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.panel-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #333;
+  background: #16162a;
+}
+
+.panel-header h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.graph-container {
+  flex: 1;
+  min-height: 300px;
+}
+
+/* Inspector Panel */
+.inspector-panel {
+  width: 420px;
+  display: flex;
+  flex-direction: column;
+  background: #1a1a2e;
+  border-radius: 0.5rem;
+  border: 1px solid #333;
+  overflow: hidden;
+}
+
+.inspector-container {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.inspector-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 200px;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+}
+
+/* Tensor List in Sidebar */
+.tensor-list-section {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333;
+}
+
+.tensor-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tensor-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 0.25rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  background: #1f1f3a;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.tensor-list li:hover {
+  background: #2a2a4a;
+  border-color: #444;
+}
+
+.tensor-list li.selected {
+  background: #2d4a6d;
+  border-color: #4a90d9;
+}
+
+.tensor-list li strong {
+  color: #fff;
+  font-size: 0.85rem;
+}
+
+.tensor-list li .tensor-shape {
+  font-size: 0.75rem;
+  color: #10b981;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ============================================
+   Operator Graph Styles (React Flow)
+   ============================================ */
+
+.operator-graph {
+  width: 100%;
+  height: 100%;
+  background: #0f0f1a;
+}
+
+.operator-graph-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: #666;
+  text-align: center;
+}
+
+.operator-graph-empty p {
+  margin: 0.25rem 0;
+}
+
+.operator-graph-empty .hint {
+  font-size: 0.85rem;
+  color: #555;
+}
+
+/* Custom Operator Node */
+.operator-node {
+  padding: 0.75rem 1rem;
+  background: #1f1f3a;
+  border: 2px solid #444;
+  border-radius: 0.5rem;
+  min-width: 140px;
+  transition: all 0.15s ease;
+}
+
+.operator-node:hover {
+  border-color: #666;
+  background: #2a2a4a;
+}
+
+.operator-node.selected {
+  border-color: #4a90d9;
+  background: #2d4a6d;
+  box-shadow: 0 0 12px rgba(74, 144, 217, 0.3);
+}
+
+.node-content {
+  text-align: center;
+}
+
+.node-type {
+  font-size: 0.65rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.node-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.node-tags {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+  margin-top: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.node-tag {
+  font-size: 0.6rem;
+  padding: 0.125rem 0.375rem;
+  background: #10b981;
+  color: #fff;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+}
+
+/* Node Handles */
+.node-handle {
+  width: 10px !important;
+  height: 10px !important;
+  background: #4a90d9 !important;
+  border: 2px solid #1a1a2e !important;
+}
+
+.node-handle:hover {
+  background: #6ba8e5 !important;
+}
+
+.input-handle {
+  left: -5px !important;
+}
+
+.output-handle {
+  right: -5px !important;
+}
+
+/* React Flow Overrides */
+.react-flow__background {
+  background: #0f0f1a;
+}
+
+.react-flow__controls {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background: #1a1a2e;
+  border-bottom: 1px solid #333;
+  color: #888;
+  width: 28px;
+  height: 28px;
+}
+
+.react-flow__controls-button:hover {
+  background: #2a2a4a;
+  color: #fff;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none;
+}
+
+.react-flow__edge-path {
+  stroke: #666;
+  stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #4a90d9;
+  stroke-width: 3;
+}
+
+.react-flow__edge-text {
+  font-size: 10px;
+}
+
+/* ============================================
+   Tensor Inspector Styles
+   ============================================ */
+
+.tensor-inspector {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.inspector-header {
+  border-bottom: 1px solid #333;
+  padding-bottom: 0.75rem;
+}
+
+.inspector-header h3 {
+  margin: 0 0 0.5rem 0;
+  color: #fff;
+  font-size: 1.1rem;
+}
+
+.tensor-meta-inline {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.tensor-meta-inline .tensor-shape {
+  display: inline;
+  margin-bottom: 0;
+}
+
+.tensor-meta-inline .tensor-kind {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  padding: 0.125rem 0.5rem;
+  background: #2a2a4a;
+  border-radius: 0.25rem;
+}
+
+.tensor-meta-inline .tensor-dtype {
+  font-size: 0.75rem;
+  color: #666;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+.tensor-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.tensor-tag {
+  font-size: 0.7rem;
+  padding: 0.2rem 0.5rem;
+  background: #10b981;
+  color: #fff;
+  border-radius: 0.25rem;
+  text-transform: lowercase;
+}
+
+.inspector-content-area {
+  flex: 1;
+  min-height: 0;
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 150px;
+  color: #888;
+  font-style: italic;
+}
+
+.error-state {
+  color: #ef4444;
+}
+
+.inspector-visualization {
+  overflow: auto;
+}
+
+/* Inspector Stats */
+.inspector-stats {
+  background: #16162a;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+}
+
+.inspector-stats h4 {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.8rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem 1rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: #666;
+  text-transform: capitalize;
+}
+
+.stat-value {
+  font-size: 0.85rem;
+  color: #4ade80;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+}
+
+/* ============================================
+   Parameter Controls Styles (Step 9)
+   ============================================ */
+
+.parameter-panel {
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+}
+
+.parameter-panel.disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.parameter-panel-empty {
+  padding: 1rem;
+  color: #666;
+  font-style: italic;
+  text-align: center;
+}
+
+.parameter-panel-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #333;
+  background: #16162a;
+}
+
+.parameter-panel-header h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.parameter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+/* Individual Parameter Controls */
+.parameter-slider,
+.parameter-select {
+  flex: 1;
+  min-width: 200px;
+  max-width: 350px;
+}
+
+.parameter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.parameter-label {
+  font-size: 0.85rem;
+  color: #ccc;
+  font-weight: 500;
+}
+
+.parameter-value {
+  font-size: 0.85rem;
+  color: #4a90d9;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-weight: 600;
+}
+
+.parameter-range {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: #666;
+  margin-top: 0.25rem;
+}
+
+.parameter-description {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.75rem;
+  color: #666;
+  line-height: 1.4;
+}
+
+/* Slider Input Styling */
+.slider-input {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.slider-input:hover {
+  opacity: 0.9;
+}
+
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4a90d9;
+  cursor: pointer;
+  border: 2px solid #1a1a2e;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+  background: #6ba8e5;
+  transform: scale(1.1);
+}
+
+.slider-input::-webkit-slider-thumb:active {
+  background: #3a7cc0;
+  transform: scale(1.05);
+}
+
+.slider-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4a90d9;
+  cursor: pointer;
+  border: 2px solid #1a1a2e;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.15s ease;
+}
+
+.slider-input::-moz-range-thumb:hover {
+  background: #6ba8e5;
+  transform: scale(1.1);
+}
+
+.slider-input::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #333;
+}
+
+/* Select Input Styling */
+.select-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: #0f0f1a;
+  border: 1px solid #333;
+  border-radius: 0.375rem;
+  color: #ccc;
+  font-size: 0.85rem;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+.select-input:hover {
+  border-color: #444;
+  background-color: #1a1a2e;
+}
+
+.select-input:focus {
+  border-color: #4a90d9;
+  box-shadow: 0 0 0 2px rgba(74, 144, 217, 0.2);
+}
+
+.select-input option {
+  background: #1a1a2e;
+  color: #ccc;
+}
+
+/* ============================================
+   Toast Notifications
+   ============================================ */
+
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 1000;
+  max-width: 400px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: #1a1a2e;
+  border: 1px solid #333;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-size: 0.85rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: toast-enter 0.2s ease;
+}
+
+.toast-exit {
+  animation: toast-exit 0.2s ease forwards;
+}
+
+.toast-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.toast-dismiss {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+  transition: all 0.15s ease;
+}
+
+.toast-dismiss:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.toast-error {
+  border-color: rgba(239, 68, 68, 0.5);
+}
+
+.toast-error .toast-icon {
+  color: #ef4444;
+}
+
+.toast-warning {
+  border-color: rgba(251, 191, 36, 0.5);
+}
+
+.toast-warning .toast-icon {
+  color: #fbbf24;
+}
+
+.toast-success {
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+.toast-success .toast-icon {
+  color: #10b981;
+}
+
+.toast-info {
+  border-color: rgba(74, 144, 217, 0.5);
+}
+
+.toast-info .toast-icon {
+  color: #4a90d9;
+}
+
+@keyframes toast-enter {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes toast-exit {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+/* ============================================
+   Spinner and Loading States
+   ============================================ */
+
+.spinner {
+  display: inline-block;
+  border: 2px solid #333;
+  border-top-color: #4a90d9;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.spinner-small {
+  width: 16px;
+  height: 16px;
+}
+
+.spinner-medium {
+  width: 24px;
+  height: 24px;
+}
+
+.spinner-large {
+  width: 40px;
+  height: 40px;
+  border-width: 3px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================
+   Skeleton Loading
+   ============================================ */
+
+.skeleton {
+  background: linear-gradient(90deg, #1f1f3a 25%, #2a2a4a 50%, #1f1f3a 75%);
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s infinite;
+  border-radius: 0.375rem;
+}
+
+.skeleton-text {
+  height: 1em;
+  border-radius: 0.25rem;
+}
+
+.skeleton-circle {
+  border-radius: 50%;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.graph-skeleton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  gap: 2rem;
+}
+
+.skeleton-nodes {
+  display: flex;
+  gap: 2rem;
+}
+
+.skeleton-node {
+  border-radius: 0.5rem;
+}
+
+.skeleton-edges {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 60%;
+}
+
+.skeleton-edge {
+  border-radius: 0;
+}
+
+.skeleton-loading-text {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.inspector-skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.skeleton-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.skeleton-tabs {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.skeleton-content {
+  margin: 1rem 0;
+}
+
+.skeleton-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.5rem;
+}
+
+/* ============================================
+   Responsive Layout
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .graph-inspector-layout {
+    flex-direction: column;
+  }
+
+  .inspector-panel {
+    width: 100%;
+    max-height: 400px;
+  }
+
+  .graph-panel {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0.5rem 1rem;
+  }
+
+  .header h1 {
+    font-size: 1.25rem;
+  }
+
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+  }
+
+  .sidebar-content {
+    width: 240px;
+  }
+
+  .content-area {
+    padding: 0.75rem;
+  }
+
+  .parameter-list {
+    gap: 1rem;
+  }
+
+  .parameter-slider,
+  .parameter-select {
+    min-width: 160px;
+  }
+}
