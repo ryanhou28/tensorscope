@@ -1,8 +1,9 @@
-import { useEffect, useCallback } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import { useStore } from './store';
 import { useWebSocket } from './api/websocket';
 import { OperatorGraph } from './components/Graph';
 import { TensorInspector } from './components/Inspector';
+import { ParameterPanel } from './components/Controls';
 import type { WSServerMessage } from './types';
 import './App.css';
 
@@ -14,11 +15,17 @@ function App() {
     scenarioError,
     tensors,
     selectedTensorId,
+    parameters,
     loadScenarios,
     selectScenario,
     selectTensor,
     updateTensor,
+    updateParameter,
+    setTensors,
   } = useStore();
+
+  // Track if we're waiting for a parameter update response
+  const isUpdatingRef = useRef(false);
 
   // Load scenarios on mount
   useEffect(() => {
@@ -26,15 +33,37 @@ function App() {
   }, [loadScenarios]);
 
   // WebSocket connection for real-time updates
-  const { isConnected } = useWebSocket(`ws://${window.location.host}/ws`, {
+  const { isConnected, updateParam } = useWebSocket(`ws://${window.location.host}/ws`, {
     onMessage: (message: WSServerMessage) => {
       if (message.type === 'tensor_update') {
         updateTensor(message.tensor_id, message.summary);
+        isUpdatingRef.current = false;
+      } else if (message.type === 'tensors_update') {
+        // Bulk update all tensors (e.g., after parameter change)
+        setTensors(message.tensors);
+        isUpdatingRef.current = false;
+      } else if (message.type === 'error') {
+        console.error('WebSocket error:', message.message);
+        isUpdatingRef.current = false;
       }
     },
     onConnect: () => console.log('WebSocket connected'),
     onDisconnect: () => console.log('WebSocket disconnected'),
   });
+
+  // Handle parameter changes - update store and send via WebSocket
+  const handleParameterChange = useCallback(
+    (name: string, value: number | string) => {
+      updateParameter(name, value);
+
+      // Send update via WebSocket if connected and scenario is loaded
+      if (isConnected && currentScenario) {
+        isUpdatingRef.current = true;
+        updateParam(currentScenario.id, name, value);
+      }
+    },
+    [isConnected, currentScenario, updateParameter, updateParam]
+  );
 
   const selectedTensor = selectedTensorId ? tensors[selectedTensorId] : null;
 
@@ -129,6 +158,16 @@ function App() {
                 <h2>{currentScenario.name}</h2>
                 <p>{currentScenario.description}</p>
               </div>
+
+              {/* Parameter Controls */}
+              {currentScenario.parameters && currentScenario.parameters.length > 0 && (
+                <ParameterPanel
+                  parameters={currentScenario.parameters}
+                  values={parameters}
+                  onChange={handleParameterChange}
+                  disabled={!isConnected}
+                />
+              )}
 
               {/* Graph and Inspector Layout */}
               <div className="graph-inspector-layout">

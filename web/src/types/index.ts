@@ -103,5 +103,6 @@ export type WSClientMessage =
 
 export type WSServerMessage =
   | { type: 'tensor_update'; tensor_id: string; summary: TensorSummary }
+  | { type: 'tensors_update'; tensors: Record<string, TensorSummary> }
   | { type: 'graph_update'; nodes: GraphNode[]; edges: GraphEdge[] }
   | { type: 'error'; message: string };

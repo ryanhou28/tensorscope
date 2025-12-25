@@ -96,8 +96,8 @@ async def handle_unsubscribe(websocket: WebSocket, message: Dict[str, Any]) -> N
 async def handle_update_param(websocket: WebSocket, message: Dict[str, Any]) -> None:
     """Handle a parameter update message.
 
-    This triggers a scenario re-run with updated parameters and broadcasts
-    the updated tensor summaries to all subscribed clients.
+    This triggers a scenario re-run with updated parameters and sends
+    the updated tensor summaries back to the requesting client.
 
     Args:
         websocket: The WebSocket connection.
@@ -125,7 +125,10 @@ async def handle_update_param(websocket: WebSocket, message: Dict[str, Any]) -> 
         # Re-run scenario with updated parameters
         summaries = state.run_scenario(scenario_id, current_params)
 
-        # Broadcast updates to all subscribed clients
+        # Send bulk update with all tensors to requesting client
+        await send_tensors_update(websocket, summaries)
+
+        # Also broadcast to other subscribed clients
         await state.broadcast_all_updates()
 
     except ValueError as e:
@@ -159,6 +162,36 @@ async def send_tensor_update(
         "type": "tensor_update",
         "tensor_id": tensor_id,
         "summary": response.model_dump(),
+    })
+
+
+async def send_tensors_update(
+    websocket: WebSocket,
+    summaries: Dict[str, Any],
+) -> None:
+    """Send a bulk tensor update message with all tensors.
+
+    Args:
+        websocket: The WebSocket connection.
+        summaries: Dict of tensor key to TensorSummary.
+    """
+    tensors_dict = {}
+    for key, summary in summaries.items():
+        response = TensorSummaryResponse(
+            id=summary.id,
+            name=summary.name,
+            kind=summary.kind,
+            tags=summary.tags,
+            shape=list(summary.shape),
+            dtype=summary.dtype,
+            stats=summary.stats,
+            recommended_views=summary.recommended_views,
+        )
+        tensors_dict[key] = response.model_dump()
+
+    await websocket.send_json({
+        "type": "tensors_update",
+        "tensors": tensors_dict,
     })
 
 
